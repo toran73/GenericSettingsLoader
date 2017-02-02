@@ -7,7 +7,7 @@ namespace GenericSettingsLoader
         // This is the main object loaded from settingsfile
         private T mLoadedSettingsObject;
 
-        // And this is accessed through this readonly proprety
+        // And this is accessed through this readonly property
         public T Settings { get { return mLoadedSettingsObject; } }
 
         
@@ -28,8 +28,11 @@ namespace GenericSettingsLoader
             {
                 mLoadedSettingsObject = new T();
 
-                // Create path
-                FileUtils.MakeSurePath(Path.GetDirectoryName(mSettingsFileName));
+                // Create path if it does not already exists
+                string path = Path.GetDirectoryName(mSettingsFileName);
+
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
 
                 // Save the new object
                 ObjectLoader<T>.SaveFile(mSettingsFileName, mLoadedSettingsObject);
